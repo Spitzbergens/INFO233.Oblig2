@@ -158,12 +158,14 @@ public interface IList<E> extends Iterable<E> {
 
     /**
      * , * Returnerer det siste elementet i listen.
+     *
      * @return siste element i listen
      */
     E last();
 
     /**
      * Returnerer et array med listens innhold
+     *
      * @return Arrayet
      */
     E[] toArray();

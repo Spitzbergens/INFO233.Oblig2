@@ -22,7 +22,7 @@ class ListTest {
     private Iterator iterator;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         list = new LinkedList<>();
         iterator = list.iterator();
     }
@@ -159,30 +159,30 @@ class ListTest {
             assertThrows(NoSuchElementException.class, () -> {
                 list.first();
             }, "Listen er tom");
-        }else{
+        } else {
             fail("Listen er ikke tom");
         }
     }
 
     @Test
-    void calledRemoveOnEmpty(){
-        if (list.isEmpty()){
+    void calledRemoveOnEmpty() {
+        if (list.isEmpty()) {
             assertThrows(NoSuchElementException.class, () -> {
                 list.remove();
             }, "Listen er tom");
-        }else{
+        } else {
             fail("List is not empty");
         }
     }
 
     // Kaster NullPointerException om listen er tom og man kaller Rest().
     @Test
-    void calledRestOnEmpty(){
-        if (list.isEmpty()){
+    void calledRestOnEmpty() {
+        if (list.isEmpty()) {
             assertThrows(NullPointerException.class, () -> {
                 list.rest();
             }, "Listen er tom");
-        }else{
+        } else {
             fail("Listen er ikke tom");
         }
     }
@@ -190,14 +190,14 @@ class ListTest {
     // Sjekker om det første elementet i listen er "test", som ble lagt til ved add()
     @Test
     void calledAddOnEmpty() {
-         list.add("test");
-         assertTrue(list.first().equals("test"));
+        list.add("test");
+        assertTrue(list.first().equals("test"));
 
     }
 
     // Sjekker om det første elementet er lik "test", som er elementet passert inn med put()
     @Test
-    void calledPutOnEmpty(){
+    void calledPutOnEmpty() {
         list.put("test");
         assertTrue(list.first().equals("test"));
 
@@ -216,7 +216,7 @@ class ListTest {
     }
 
     @Test
-    void calledAddOnSizeOne(){
+    void calledAddOnSizeOne() {
         // Sjekker at elementet som blir lagt til med add() legger seg i halen på listen, og ikke først.
         list.add("test");
         list.add("test2");
@@ -225,7 +225,7 @@ class ListTest {
     }
 
     @Test
-    void calledPutOnSizeOne(){
+    void calledPutOnSizeOne() {
         // Sjekker også om first er det siste elementet som ble lagt inn, "test2".
         list.add("test");
         list.put("test2");
@@ -233,7 +233,7 @@ class ListTest {
     }
 
     @Test
-    void calledRemoveOnSizeOne(){
+    void calledRemoveOnSizeOne() {
         // Sjekker at størrelsen på listen er 0 etter å ha fjernet det eneste elementet.
         list.put("test");
         list.remove();
@@ -243,9 +243,9 @@ class ListTest {
     // Siden "test" er det første elementet i listen, skal ikke et kall til rest()
     // returnere dette elementet. Dette sjekkes i testen.
     @Test
-    void calledRestOnSizeOne(){
+    void calledRestOnSizeOne() {
         list.put("test");
-        assertTrue(!list.rest().equals( "test"));
+        assertTrue(!list.rest().equals("test"));
     }
 
     // Oppgave 1.3
@@ -253,7 +253,7 @@ class ListTest {
     // du kaller metodene first, rest, add, put, og remove. Kommenter testene med hva du tester for.
 
     @Test
-    void calledFirstOnSizeAboveOne(){
+    void calledFirstOnSizeAboveOne() {
         // Forventer at "test2" skal være den første elementet i listen, som legges inn med put().
         // Testen feiler om dette ikke er tilfellet
         list.put("test");
@@ -262,7 +262,7 @@ class ListTest {
     }
 
     @Test
-    void calledAddOnSizeAboveOne(){
+    void calledAddOnSizeAboveOne() {
         //Forventer at størrelsen på listen skal være 3 etter å ha lagt til tre elementer med add()
         list.add("test2");
         list.add("test3");
@@ -271,7 +271,7 @@ class ListTest {
     }
 
     @Test
-    void calledPutOnSizeAboveOne(){
+    void calledPutOnSizeAboveOne() {
         // Sjekket at "test3" er det første elementet i listen etter å ha lagt inn 2 elementer med Put()
         list.put("test");
         list.put("test2");
@@ -280,7 +280,7 @@ class ListTest {
     }
 
     @Test
-    void calledRemoveOnSizeAboveOne(){
+    void calledRemoveOnSizeAboveOne() {
         // Sjekker at "test2" er det første elementet i listen etter å ha fjernet det første elementet i listen
         list.add("test");
         list.add("test2");
@@ -290,7 +290,7 @@ class ListTest {
     }
 
     @Test
-    void calledRestOnSizeAboveOne(){
+    void calledRestOnSizeAboveOne() {
         // Legger inn tre elementer. bruker deretter rest() på newList, og sjekker at størrelsen har sunket til 2, og
         // "test er det første elementet i listen.
         list.put("test");
@@ -303,20 +303,20 @@ class ListTest {
 
     // Deloppgave 2.1
     @Test
-    void calledParameterizedRemoveOnEmpty(){
+    void calledParameterizedRemoveOnEmpty() {
         // Remove(o) ska returnere false dersom listen er tom og man ikke finner referansen til gitt object.
         assertFalse(list.remove("test"));
     }
 
     @Test
-    void calledParameterizedRemoveOnSizeOne(){
+    void calledParameterizedRemoveOnSizeOne() {
         // legger inn "test" med put(), sjekker deretter om list.remove() var lik "test", og at den nye størrelsen er 0.
         list.put("test");
         assertTrue(list.remove("test") && list.size() == 2);
     }
 
     @Test
-    void calledParameterizedRemoveOnSizeAboveOne(){
+    void calledParameterizedRemoveOnSizeAboveOne() {
         // Sjekker at "test2" returnerer true på remove. Deretter sjekkes det
         // om size synker til 2, og at det første elementet i listen nå er "test3".
         list.put("test");
@@ -329,13 +329,13 @@ class ListTest {
 // deloppgave 3.1
 
     @Test
-    void calledContainsOnEmpty(){
+    void calledContainsOnEmpty() {
         //sjekker at testen returnerer false dersom man søker etter et element som ikke eksisterer
         assertFalse(list.contains("test"));
     }
 
     @Test
-    void calledContainsOnSizeAboveOne(){
+    void calledContainsOnSizeAboveOne() {
         // Sjekker at "test2" og "test3" ekesisterer i listen, og at "test" ikke eksisterer i listen.
         list.put("test2");
         list.put("test3");
@@ -343,26 +343,26 @@ class ListTest {
     }
 
     @Test
-    void calledIsEmptyOnEmpty(){
+    void calledIsEmptyOnEmpty() {
         // Sjekker at testen returnerer True om listen er tom og man kaller isEmpty()
         assertTrue(list.isEmpty());
     }
 
     @Test
-    void calledIsEmptyOnSizeOne(){
+    void calledIsEmptyOnSizeOne() {
         // sjekke at isEmpty() returnerer false dersom listen ikke er tom
         list.put("test");
         assertFalse(list.isEmpty());
     }
 
     @Test
-    void calledSizeOnEmpty(){
+    void calledSizeOnEmpty() {
         // sjekker at størrelsen er null om man kaller size og lsiten er tom
         assertEquals(0, list.size());
     }
 
     @Test
-    void calledSizeWhileNotEmpty(){
+    void calledSizeWhileNotEmpty() {
         // Sjekker at størrelsen er 3 dersom man legger til 3 elementer.
 
         list.put("test");
@@ -411,7 +411,7 @@ class ListTest {
     @Test
     void isEmpty() {
         // Sjekker at listen er tom. True hvis sant.
-            assertTrue(list.isEmpty());
+        assertTrue(list.isEmpty());
     }
 
     // Deloppgave 4.2
@@ -459,6 +459,7 @@ class ListTest {
         assertEquals(4, list.size());
     }
 
+    // Deloppgave 5.1
     @Test
     void concat() {
         // Oppretter to lister, som blir sveiset sammen av list som en ny liste.
@@ -476,6 +477,7 @@ class ListTest {
         assertEquals("Item in list2-2", concatinated.first());
     }
 
+    // Deloppgave 8.1
     @Test
     void sortIntegers() {
         // Oppretter en ny liste av typen Integer. Lager deretter et array med
@@ -493,11 +495,18 @@ class ListTest {
         integerList.add(76);
 
         integerList.sort(Comparator.comparingInt(x -> x));
-       assertArrayEquals(expected, integerList.toArray());
+        assertArrayEquals(expected, integerList.toArray());
     }
 
     @Test
     void filter() {
+
+        list.put("test");
+        list.add("test2");
+        list.add("test3");
+        list.add("test4");
+
+
     }
 
     @Test
@@ -514,7 +523,8 @@ class ListTest {
 
     @Test
     void clear() {
-        // 
+        // Legger til to elementer i listen, og kaller deretter Clear.
+        // Sjekker deretter om listen er tom.
         IList<String> list = new LinkedList<>();
         list.put("test");
         list.put("test2");
@@ -523,41 +533,49 @@ class ListTest {
     }
 
 
-    // tester for iterator
+    // Deloppgave 7.1 . tester for iterator
     @Test
-    void IteratorhasNextOnEmpty(){
+    void IteratorhasNextOnEmpty() {
+        // Sjekker at hasNext() returnerer false når listen er tom.
         assertFalse(iterator.hasNext());
-        }
+    }
 
 
-     @Test
-    void iteratorNextOnEmpty(){
-         assertThrows(NullPointerException.class, () -> {
-                 iterator.next();
-             }, "Listen er tom");
-     }
+    @Test
+    void iteratorNextOnEmpty() {
+        // Sjekker at next() kaster NullPointerException når listen er tom.
+        assertThrows(NullPointerException.class, () -> {
+            iterator.next();
+        }, "Listen er tom");
+    }
 
-     @Test
-    void iteratorHasNextOnOne(){
+    @Test
+    void iteratorHasNextOnOne() {
+        // Sjekker at hasNext() returnerer true når det er ett element i listen
         list.add("test");
         assertTrue(iterator.hasNext());
-     }
+    }
 
-     @Test
-    void iteratorHasNextOnSeveral(){
+    @Test
+    void iteratorHasNextOnSeveral() {
+        // legger til et par elementer i listen.
+        // Sjekker at hasNexT() returnerer true.
+        // Mens hasNext() returnerer true, skal den fjerne et element fra listen.
+        // deretter skal den sjekke at listen er tom, og returnere true.
+        // Ved et kall til next() skal unntaket kastes.
         list.put("test");
         list.put("test2");
         list.put("test3");
         list.put("test4");
         assertTrue(iterator.hasNext());
-         while (iterator.hasNext()) {
-             list.remove();
-         }
-         assertTrue(list.isEmpty());
-         assertThrows(NullPointerException.class, () -> {
-             iterator.next();
-         }, "listen er tom");
-     }
+        while (iterator.hasNext()) {
+            list.remove();
+        }
+        assertTrue(list.isEmpty());
+        assertThrows(NullPointerException.class, () -> {
+            iterator.next();
+        }, "listen er tom");
+    }
 
-     }
+}
 

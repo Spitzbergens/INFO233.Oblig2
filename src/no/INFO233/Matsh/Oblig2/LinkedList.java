@@ -16,25 +16,25 @@ public class LinkedList<E> implements IList<E> {
     private int numberOfEntries;
 
 
-    public LinkedList(E newEntry, IList<E> rest){
+    public LinkedList(E newEntry, IList<E> rest) {
         headNode = new Node(newEntry);
         tailNode = headNode;
         numberOfEntries++;
-        if (size() >= 1){
-        for (E element : rest) {
-               add(element);
-           }
+        if (size() >= 1) {
+            for (E element : rest) {
+                add(element);
+            }
         }
     }
 
     public LinkedList(E newEntry) {
-           headNode = new Node(newEntry);
-           tailNode = headNode;
-           numberOfEntries++;
+        headNode = new Node(newEntry);
+        tailNode = headNode;
+        numberOfEntries++;
     }
 
     // Legger ved en tom konstruktør for tomme lister.
-    public LinkedList(){
+    public LinkedList() {
         headNode = null;
         tailNode = null;
         numberOfEntries = 0;
@@ -42,7 +42,7 @@ public class LinkedList<E> implements IList<E> {
     }
 
 
-    private IList<E> reverse(IList<? extends E> list){
+    private IList<E> reverse(IList<? extends E> list) {
         IList<E> reverse = new LinkedList<>();
         for (E data : list) {
             reverse.put(data);
@@ -50,21 +50,21 @@ public class LinkedList<E> implements IList<E> {
         return reverse;
     }
 
-    private void swap (E a, E b){
+    private void swap(E a, E b) {
         E temp = a;
         a = b;
         b = temp;
     }
 
 
-    private Node getReferenceTo(Object anEntry){
+    private Node getReferenceTo(Object anEntry) {
         boolean found = false;
         Node currentNode = headNode;
 
-        while(!found && (currentNode != null)){
-            if (anEntry.equals(currentNode.data)){
+        while (!found && (currentNode != null)) {
+            if (anEntry.equals(currentNode.data)) {
                 found = true;
-            }else{
+            } else {
                 currentNode = currentNode.getNext();
             }
         }
@@ -74,19 +74,20 @@ public class LinkedList<E> implements IList<E> {
 
     @Override
     public E first() throws NoSuchElementException {
-        if (headNode != null){
+        if (headNode != null) {
             E result = headNode.getData();
             return result;
-        }else{
+        } else {
             throw new NoSuchElementException("Ingen elementer å returnere");
         }
     }
+
     @Override
-    public E last() throws NoSuchElementException{
-        if (tailNode != null){
+    public E last() throws NoSuchElementException {
+        if (tailNode != null) {
             E result = tailNode.getData();
             return result;
-        }else{
+        } else {
             throw new NoSuchElementException("Ingen elementer å returnere");
         }
     }
@@ -95,10 +96,10 @@ public class LinkedList<E> implements IList<E> {
 
     @Override
     public IList<E> rest() {
-        IList<E> result =  new LinkedList<E>();
-        while(headNode.next != null){
-                headNode = headNode.getNext();
-                result.add(headNode.data);
+        IList<E> result = new LinkedList<E>();
+        while (headNode.next != null) {
+            headNode = headNode.getNext();
+            result.add(headNode.data);
         }
         return result;
     }
@@ -106,10 +107,10 @@ public class LinkedList<E> implements IList<E> {
     @Override
     public boolean add(E elem) {
         Node newNode = new Node(elem);
-        if (numberOfEntries == 0){
+        if (numberOfEntries == 0) {
             tailNode = newNode;
             headNode = newNode;
-        }else{
+        } else {
             tailNode.setNext(newNode);
             tailNode = newNode;
 
@@ -122,10 +123,10 @@ public class LinkedList<E> implements IList<E> {
     @Override
     public boolean put(E elem) {
         Node newNode = new Node(elem);
-        if (numberOfEntries == 0){
+        if (numberOfEntries == 0) {
             headNode = newNode;
             tailNode = newNode;
-        }else{
+        } else {
             newNode.setNext(headNode);
             headNode = newNode;
         }
@@ -136,11 +137,11 @@ public class LinkedList<E> implements IList<E> {
     @Override
     public E remove() throws NoSuchElementException {
         E result;
-        if (numberOfEntries != 0){
+        if (numberOfEntries != 0) {
             result = headNode.data;
             headNode = headNode.getNext();
             numberOfEntries--;
-        }else{
+        } else {
             throw new NoSuchElementException("No such element in the list");
         }
         return result;
@@ -152,8 +153,8 @@ public class LinkedList<E> implements IList<E> {
     public boolean remove(Object o) {
 
         boolean result = false;
-        Node nodeN =  getReferenceTo(o);
-        if (nodeN != null){
+        Node nodeN = getReferenceTo(o);
+        if (nodeN != null) {
             nodeN.data = headNode.data;
             headNode = headNode.next;
             numberOfEntries--;
@@ -170,8 +171,7 @@ public class LinkedList<E> implements IList<E> {
         else {
             currentNode = currentNode.getNext();
         }
-        if (found) return true;
-        else return false;
+        return found;
     }
 
     @Override
@@ -180,21 +180,21 @@ public class LinkedList<E> implements IList<E> {
     }
 
     //  Legger til alle elementene i den angitte listen på
-     // slutten av listen.
+    // slutten av listen.
     @Override
     public void append(IList<? extends E> list) {
         assert !list.isEmpty();
-            for (E element : list) {
-                add(element);
-            }
+        for (E element : list) {
+            add(element);
+        }
     }
 
     @Override
     public void prepend(IList<? extends E> list) {
         list = reverse(list);
-            for (E element : list){
-                put(element);
-            }
+        for (E element : list) {
+            put(element);
+        }
     }
 
     /**
@@ -211,57 +211,58 @@ public class LinkedList<E> implements IList<E> {
     public IList<E> concat(IList<? extends E>... lists) {
         IList<E> result = new LinkedList<>();
 
-            for (IList<? extends E> elem : lists) {
-                result.append(elem);
-            }
+        for (IList<? extends E> elem : lists) {
+            result.append(elem);
+        }
         return result;
     }
-/**
-    public IList<E> concat(IList<? extends E>... lists){
-        LinkedList<E> newList = new LinkedList<>();
-        for (IList<? extends E> e : lists) {
-            for(E elem : e){
-                newList.add(elem);
-            }
-        }
-        Iterator<E> itr = newList.iterator();
 
-        System.out.println(itr.hasNext());
+    /**
+     * public IList<E> concat(IList<? extends E>... lists){
+     * LinkedList<E> newList = new LinkedList<>();
+     * for (IList<? extends E> e : lists) {
+     * for(E elem : e){
+     * newList.add(elem);
+     * }
+     * }
+     * Iterator<E> itr = newList.iterator();
+     * <p>
+     * System.out.println(itr.hasNext());
+     * <p>
+     * while (itr.hasNext()) {
+     * System.out.println(itr.next().toString());
+     * }
+     * return newList;
+     * }
+     **/
 
-        while (itr.hasNext()) {
-            System.out.println(itr.next().toString());
-        }
-        return newList;
-    }**/
 
-
-
-        @Override
+    @Override
     public void sort(Comparator<? super E> c) {
 // Bubblesort
-            if (size() > 1){
-                for (int i = 0; i < size(); i++) {
-                    Node current = headNode;
-                    Node nextNode = headNode.next;
-                    for (int j = 0; j < size() - 1; j++) {
+        if (size() > 1) {
+            for (int i = 0; i < size(); i++) {
+                Node current = headNode;
+                Node nextNode = headNode.next;
+                for (int j = 0; j < size() - 1; j++) {
 
-                        if (c.compare(current.data, nextNode.data) < 0) {
-                            E temp = current.data;
-                            current.data = nextNode.data;
-                            nextNode.data = temp;
-                        }
-                        current = nextNode;
-                        nextNode = nextNode.next;
+                    if (c.compare(current.data, nextNode.data) < 0) {
+                        E temp = current.data;
+                        current.data = nextNode.data;
+                        nextNode.data = temp;
                     }
+                    current = nextNode;
+                    nextNode = nextNode.next;
                 }
             }
+        }
 
     }
 
     @Override
     public void filter(Predicate<? super E> p) {
-        for (E elem : this){
-            if (p.test(elem)){
+        for (E elem : this) {
+            if (p.test(elem)) {
                 remove(elem);
             }
         }
@@ -271,7 +272,7 @@ public class LinkedList<E> implements IList<E> {
     @Override
     public <U> IList<U> map(Function<? super E, ? extends U> f) {
         IList<U> list = new LinkedList<>();
-        for (E elem : this){
+        for (E elem : this) {
             list.add(f.apply(elem));
         }
         return list;
@@ -280,11 +281,11 @@ public class LinkedList<E> implements IList<E> {
     @Override
     public <T> T reduce(T t, BiFunction<T, ? super E, T> f) {
 
-            T result = t;
-            for (E elem : this){
-                result = f.apply(result, elem);
-            }
-            return result;
+        T result = t;
+        for (E elem : this) {
+            result = f.apply(result, elem);
+        }
+        return result;
     }
 
     @Override
@@ -300,18 +301,18 @@ public class LinkedList<E> implements IList<E> {
     }
 
     @Override
-    public E[] toArray(){
-            if (isEmpty()){
-                return null;
-            }
+    public E[] toArray() {
+        if (isEmpty()) {
+            return null;
+        }
         @SuppressWarnings("unchecked")
-         E[] array = (E[]) new Object[size()];
-            int index = 0;
-            for (E value : this){
-                array[index] = value;
-                index++;
-            }
-            return array;
+        E[] array = (E[]) new Object[size()];
+        int index = 0;
+        for (E value : this) {
+            array[index] = value;
+            index++;
+        }
+        return array;
     }
 
 
@@ -329,11 +330,11 @@ public class LinkedList<E> implements IList<E> {
 
             @Override
             public E next() {
-                if (current == null){
+                if (current == null) {
                     current = headNode;
                     return current.data;
                 }
-                if (current.next == null){
+                if (current.next == null) {
                     throw new NoSuchElementException();
                 }
                 current = current.next;
@@ -368,12 +369,12 @@ public class LinkedList<E> implements IList<E> {
             return data;
         }
 
-        private Node getNodeAt(int givenPosition){
+        private Node getNodeAt(int givenPosition) {
             assert (headNode != null) && (1 <= givenPosition)
                     && (givenPosition <= numberOfEntries);
             Node currentNode = headNode;
 
-            for (int counter = 1; counter < givenPosition; counter++){
+            for (int counter = 1; counter < givenPosition; counter++) {
                 currentNode = currentNode.getNext();
             }
             assert currentNode != null;
