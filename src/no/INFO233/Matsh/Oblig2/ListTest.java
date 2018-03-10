@@ -6,8 +6,7 @@ import no.INFO233.Matsh.Oblig2.LinkedList;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-
+import org.mockito.internal.matchers.Null;
 
 
 import java.lang.reflect.Executable;
@@ -302,6 +301,13 @@ class ListTest {
         assertEquals("test2", newList.first());
     }
 
+    // Deloppgave 2.1
+    @Test
+    void calledParameterizedRemoveOnEmpty(){
+        // Remove(o) ska returnere false dersom listen er tom og man ikke finner referansen til gitt object.
+        assertFalse(list.remove("test"));
+    }
+
     @Test
     void calledParameterizedRemoveOnSizeOne(){
         // legger inn "test" med put(), sjekker deretter om list.remove() var lik "test", og at den nye størrelsen er 0.
@@ -320,11 +326,51 @@ class ListTest {
         assertTrue(list.size() == 2 && list.first().equals("test3"));
     }
 
+// deloppgave 3.1
 
+    @Test
+    void calledContainsOnEmpty(){
+        //sjekker at testen returnerer false dersom man søker etter et element som ikke eksisterer
+        assertFalse(list.contains("test"));
+    }
 
+    @Test
+    void calledContainsOnSizeAboveOne(){
+        // Sjekker at "test2" og "test3" ekesisterer i listen, og at "test" ikke eksisterer i listen.
+        list.put("test2");
+        list.put("test3");
+        assertTrue(list.contains("test3") && list.contains("test2") && !list.contains("test"));
+    }
 
+    @Test
+    void calledIsEmptyOnEmpty(){
+        // Sjekker at testen returnerer True om listen er tom og man kaller isEmpty()
+        assertTrue(list.isEmpty());
+    }
 
+    @Test
+    void calledIsEmptyOnSizeOne(){
+        // sjekke at isEmpty() returnerer false dersom listen ikke er tom
+        list.put("test");
+        assertFalse(list.isEmpty());
+    }
 
+    @Test
+    void calledSizeOnEmpty(){
+        // sjekker at størrelsen er null om man kaller size og lsiten er tom
+        assertEquals(0, list.size());
+    }
+
+    @Test
+    void calledSizeWhileNotEmpty(){
+        // Sjekker at størrelsen er 3 dersom man legger til 3 elementer.
+
+        list.put("test");
+        list.put("test2");
+        list.put("test3");
+        assertEquals(3, list.size());
+
+    }
     @Test
     void first() {
     }
@@ -368,6 +414,8 @@ class ListTest {
         }
 
     }
+
+    // Deloppgave 4.2
 
     @Test
     void append() {
