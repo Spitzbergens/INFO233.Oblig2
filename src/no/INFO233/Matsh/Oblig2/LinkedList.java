@@ -183,6 +183,7 @@ public class LinkedList<E> implements IList<E> {
      // slutten av listen.
     @Override
     public void append(IList<? extends E> list) {
+        assert !list.isEmpty();
             for (E element : list) {
                 add(element);
             }

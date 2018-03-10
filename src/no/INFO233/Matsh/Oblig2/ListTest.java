@@ -394,6 +394,7 @@ class ListTest {
 
     @Test
     void remove1() {
+        // Sjekker at "test" ble fjernet. Returnerer true hvis sant.
         list.add("test");
         list.add("test2");
         assertTrue(list.remove("test"));
@@ -401,6 +402,7 @@ class ListTest {
 
     @Test
     void contains() {
+        // Sjekker at både "put2" og "put1" er i listen.
         list.put("put1");
         list.put("put2");
         assertTrue(list.contains("put2") && list.contains("put1"));
@@ -408,32 +410,42 @@ class ListTest {
 
     @Test
     void isEmpty() {
-
-        if (list.size() == 0){
+        // Sjekker at listen er tom. True hvis sant.
             assertTrue(list.isEmpty());
-        }
-
     }
 
     // Deloppgave 4.2
 
     @Test
     void append() {
+        // Testen sjekker om listen "list" inneholder elemtentet som var i listen som ble appendet.
+        // Sjekker deretter at "AppendedList"-elementet ikke er først i listen, men bakerst.
+        // Sjekker til slutt at størrelsen er lik antatt størrelse.
+
         IList<String> appendList = new LinkedList<>();
+        // Legger til to elementer i listen fra setUp() metoden.
         list.put("test");
         list.put("test2");
 
-        String appendThis = "AppendedList";
-        appendList.put(appendThis);
+        appendList.put("AppendedList");
+        appendList.put("AppendedList2");
+
         list.append(appendList);
+
         assertTrue(list.contains("AppendedList"));
-        assertFalse(list.first().equals(appendThis));
+        assertFalse(list.first().equals("AppendedList"));
+        assertTrue(list.last().equals("AppendedList"));
+        assertEquals(4, list.size());
 
     }
+
 
     @Test
     void prepend() {
 
+        // Sjekker at listen som blir prepended av list inneholder elemtene fra listen "prepend", og at det
+        // første elementet er "prependItem2", slik det skal være.
+        // Sjekker til slutt at størrelsen er så stor som man antar.
         list.put("test");
         list.put("test2");
         IList<String> prependList = new LinkedList<>();
@@ -442,24 +454,36 @@ class ListTest {
 
         list.prepend(prependList);
 
-        assertTrue(list.contains("prependItem"));
+        assertTrue(list.contains("prependItem") && list.contains("prependItem2"));
         assertTrue(list.first().equals("prependItem2"));
+        assertEquals(4, list.size());
     }
 
     @Test
     void concat() {
+        // Oppretter to lister, som blir sveiset sammen av list som en ny liste.
+        // Sjekker deretter at størrelsen er det man antar at den skal være
+        // Sjekker også at det første elementet er "Item in list2-2", siden dette er første element i list-2,
+        // og på venstre del av parameteret.
         IList<String> list2 = new LinkedList<>("test2");
         IList<String> list3 = new LinkedList<>("test3");
         list2.put("Item in list2");
+        list2.put("Item in list2-2");
         list3.put("Item in list3");
+        list3.put("Item in list3-2");
         IList<String> concatinated = list.concat(list2, list3);
-        assertEquals(4, concatinated.size());
-        assertEquals("Item in list2", concatinated.first());
-
+        assertEquals(6, concatinated.size());
+        assertEquals("Item in list2-2", concatinated.first());
     }
 
     @Test
-    void sort() {
+    void sortIntegers() {
+        // Oppretter en ny liste av typen Integer. Lager deretter et array med
+        // den forventete sorterte listen.
+        // Legger til en rekke usorterte tall.
+        // Kaller sort metoden på listen, hvor man bruker en sammenligningsfunksjon
+        // Bruker assertArrayEquals for å sammenligne "expected"-arrayet mot Integerlist,
+        // som kaller en toArray-metode.
         IList<Integer> integerList = new LinkedList<>();
         Integer[] expected = {76, 56, 54, 43, 23};
         integerList.add(54);
@@ -490,6 +514,7 @@ class ListTest {
 
     @Test
     void clear() {
+        // 
         IList<String> list = new LinkedList<>();
         list.put("test");
         list.put("test2");
