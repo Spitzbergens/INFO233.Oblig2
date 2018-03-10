@@ -161,4 +161,7 @@ public interface IList<E> extends Iterable<E> {
      * @return siste element i listen
      */
     E last();
+
+    E[] toArray();
+
 }

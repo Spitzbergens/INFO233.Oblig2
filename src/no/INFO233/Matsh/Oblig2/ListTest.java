@@ -407,12 +407,13 @@ class ListTest {
         IList<String> concatinated = list.concat(list2, list3);
         assertEquals(4, concatinated.size());
         assertEquals("Item in list2", concatinated.first());
+
     }
 
     @Test
     void sort() {
         IList<Integer> integerList = new LinkedList<>();
-        List<Integer> expected = Arrays.asList(23, 43, 54, 56, 76);
+        Integer[] expected = {76, 56, 54, 43, 23};
         integerList.add(54);
         integerList.add(43);
         integerList.add(56);
@@ -420,10 +421,7 @@ class ListTest {
         integerList.add(76);
 
         integerList.sort(Comparator.comparingInt(x -> x));
-        for (Integer i : integerList) {
-            
-        }
-        assert
+       assertArrayEquals(expected, integerList.toArray());
     }
 
     @Test

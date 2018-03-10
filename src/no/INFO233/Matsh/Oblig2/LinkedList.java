@@ -233,9 +233,11 @@ public class LinkedList<E> implements IList<E> {
         return newList;
     }**/
 
+
+
         @Override
     public void sort(Comparator<? super E> c) {
-
+// Bubblesort
             if (size() > 1){
                 for (int i = 0; i < size(); i++) {
                     Node current = headNode;
@@ -257,17 +259,31 @@ public class LinkedList<E> implements IList<E> {
 
     @Override
     public void filter(Predicate<? super E> p) {
+        for (E elem : this){
+            if (p.test(elem)){
+                remove(elem);
+            }
+        }
 
     }
 
     @Override
     public <U> IList<U> map(Function<? super E, ? extends U> f) {
-        return null;
+        IList<U> list = new LinkedList<>();
+        for (E elem : this){
+            list.add(f.apply(elem));
+        }
+        return list;
     }
 
     @Override
     public <T> T reduce(T t, BiFunction<T, ? super E, T> f) {
-        return null;
+
+            T result = t;
+            for (E elem : this){
+                result = f.apply(result, elem);
+            }
+            return result;
     }
 
     @Override
@@ -282,6 +298,7 @@ public class LinkedList<E> implements IList<E> {
         numberOfEntries = 0;
     }
 
+    @Override
     public E[] toArray(){
             if (isEmpty()){
                 return null;
