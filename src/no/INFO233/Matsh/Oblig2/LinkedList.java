@@ -106,6 +106,7 @@ public class LinkedList<E> implements IList<E> {
 
     @Override
     public boolean add(E elem) {
+
         Node newNode = new Node(elem);
         if (numberOfEntries == 0) {
             tailNode = newNode;
@@ -123,6 +124,7 @@ public class LinkedList<E> implements IList<E> {
     @Override
     public boolean put(E elem) {
         Node newNode = new Node(elem);
+
         if (numberOfEntries == 0) {
             headNode = newNode;
             tailNode = newNode;
@@ -226,14 +228,14 @@ public class LinkedList<E> implements IList<E> {
                 Node current = headNode;
                 Node nextNode = headNode.next;
                 for (int j = 0; j < size() - 1; j++) {
-
-                    if (c.compare(current.data, nextNode.data) < 0) {
+                    if (c.compare(current.data, nextNode.data) >= 1) {
                         E temp = current.data;
                         current.data = nextNode.data;
                         nextNode.data = temp;
                     }
                     current = nextNode;
                     nextNode = nextNode.next;
+
                 }
             }
         }
@@ -320,6 +322,15 @@ public class LinkedList<E> implements IList<E> {
                 current = current.next;
                 return current.data;
             }
+
+            @Override
+            public void remove() {
+
+                    throw new UnsupportedOperationException("Ikke implementert");
+
+            }
+
+
         };
     }
 
@@ -335,6 +346,7 @@ public class LinkedList<E> implements IList<E> {
         private Node(E dataPortion, Node nextNode) {
             data = dataPortion;
             next = nextNode;
+
         }
 
         public Node getNext() {
@@ -349,20 +361,10 @@ public class LinkedList<E> implements IList<E> {
             return data;
         }
 
-        private Node getNodeAt(int givenPosition) {
-            assert (headNode != null) && (1 <= givenPosition)
-                    && (givenPosition <= numberOfEntries);
-            Node currentNode = headNode;
-
-            for (int counter = 1; counter < givenPosition; counter++) {
-                currentNode = currentNode.getNext();
-            }
-            assert currentNode != null;
-            return currentNode;
-        }
 
         public void setData(E data) {
             this.data = data;
         }
+
     }
 }

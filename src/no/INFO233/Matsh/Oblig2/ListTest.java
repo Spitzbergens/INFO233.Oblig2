@@ -27,25 +27,27 @@ class ListTest {
         iterator = list.iterator();
     }
 
-    @Test
-    void oppg8_sortIntegers() {
-        // Se oppgave 8
-        IList<Integer> list = new LinkedList<>();
-        List<Integer> values = Arrays.asList(3, 8, 4, 7, 10, 6,
-                1, 2, 9, 5);
-        for (Integer value : values) {
-            list.add(value);
-        }
-        list.sort(Comparator.comparingInt(x -> x));
-        int n = list.remove();
-        while (list.size() > 0) {
-            int m = list.remove();
-            if (n > m) {
-                fail("Integer list is not sorted.");
+        @Test
+        void oppg8_sortIntegers() {
+            // Se oppgave 8
+            IList<Integer> integerList = new LinkedList<>();
+            List<Integer> values = Arrays.asList(3, 8, 4, 7, 10, 6,
+                    1, 2, 9, 5);
+
+            for (Integer value : values) {
+                integerList.add(value);
             }
-            n = m;
+            integerList.sort(Comparator.comparingInt(x -> x));
+
+            int n = integerList.remove();
+            while (integerList.size() > 0) {
+                int m = integerList.remove();
+                if (n > m) {
+                    fail("Integer list is not sorted.");
+                }
+                n = m;
+            }
         }
-    }
 
     @Test
     void oppg8_sortStrings() {
@@ -56,13 +58,16 @@ class ListTest {
         for (String value : values) {
             list.add(value);
         }
+
         list.sort(Comparator.naturalOrder());
+
         String n = list.remove();
         while (list.size() > 0) {
             String m = list.remove();
             if (n.compareTo(m) > 0) {
                 fail("String list is not sorted.");
             }
+            n = m;
         }
     }
 
@@ -71,17 +76,17 @@ class ListTest {
         // Se oppgave 9
         List<Integer> values = Arrays.asList(1, 2, 3, 4, 5, 6, 7,
                 8, 9, 10);
-        IList<Integer> list = new no.INFO233.Matsh.Oblig2.LinkedList<>(1);
+        IList<Integer> list = new LinkedList<>();
         for (Integer value : values) {
             list.add(value);
         }
         list.filter(n -> n % 2 == 1);
-        int n = list.remove();
+
         while (list.size() > 0) {
+            int n = list.remove();
             if (n % 2 == 1) {
                 fail("List contains filtered out elements.");
             }
-            n = list.remove();
         }
     }
 
@@ -110,7 +115,7 @@ class ListTest {
     void oppg11_reduceInts() {
         // Se oppgave 11
         List<Integer> values = Arrays.asList(1, 2, 3, 4, 5);
-        IList<Integer> list = new no.INFO233.Matsh.Oblig2.LinkedList<>(1);
+        IList<Integer> list = new LinkedList<>();
         for (Integer value : values) {
             list.add(value);
         }
@@ -136,16 +141,18 @@ class ListTest {
         for (int n = 0; n < 1000000; n++) {
             list.add(r.nextInt());
         }
-        assertTimeout(Duration.ofSeconds(2), () -> {
-            list.sort(Integer::compare);
-        });
+
+        assertTimeout(Duration.ofSeconds(2), () -> list.sort(Integer::compare));
+
         int n = list.remove();
-        for (int m = list.remove(); !list.isEmpty(); n = m) {
+        for(int m = list.remove(); !list.isEmpty(); m = list.remove()) {
             if (n > m) {
                 fail("List is not sorted");
             }
+            n = m;
         }
     }
+
 
     //Deloppgave 1.1
     //Skriv tester for hva som skjer hvis listen er tom og du kaller metodene first,
@@ -313,7 +320,7 @@ class ListTest {
     void calledParameterizedRemoveOnSizeOne() {
         // legger inn "test" med put(), sjekker deretter om list.remove() var lik "test", og at den nye størrelsen er 0.
         list.put("test");
-        assertTrue(list.remove("test") && list.size() == 2);
+        assertTrue(list.remove("test") && list.size() == 0);
     }
 
     @Test
@@ -523,7 +530,7 @@ class ListTest {
     }
 
     @Test
-    void concatOnEmtpy(){
+    void concatOnEmpty(){
         // Ganske lik den over. Sjekker at det ikke skjer noe uventet om man legger til et element til i listen
         // etter at man har kalt concat.
         IList<Integer> list1 = new LinkedList<>();
@@ -559,27 +566,160 @@ class ListTest {
     }
 
     @Test
-    void filter() {
+    void sortStrings() {
 
-        list.put("test");
-        list.add("test2");
-        list.add("test3");
-        list.add("test4");
+        list.add("test");
+        list.add("h");
+        list.add("d");
+        list.add("s");
+        list.add("j");
+        list.add("c");
+        list.add("b");
 
+        list.sort(Comparator.naturalOrder());
+
+        String n = list.remove();
+        while (list.size() > 0) {
+            String m = list.remove();
+            if (n.compareTo(m) > 0) {
+                fail("String list is not sorted.");
+            }
+            n = m;
+        }
+    }
+
+    @Test
+    void sortTestIterator(){
+        list.add("Fredrik");
+        list.add("Øyvind");
+        list.add("Aslak");
+        list.add("Børre");
+        list.add("Carl");
+
+        list.sort(Comparator.naturalOrder());
+
+            assertEquals("Aslak", iterator.next());
+            assertEquals("Børre", iterator.next());
+            assertEquals("Carl", iterator.next());
+            assertEquals("Fredrik", iterator.next());
+            assertEquals("Øyvind", iterator.next());
+
+
+    }
+
+   // Deloppgave 9.1) – 4 poeng
+   // Skriv tester for metoden filter(Predicate<? super E>) i ulike scenariorer.
+   // Et predikat er en spesiell funksjon som alltid returnerer true eller false
+   // for alle elementer i domenet sitt. Kommenter testene med hva du tester for.
+    @Test
+    void filterIntegersTest() {
+        // Filterer ut oddetall, og beholder partall.
+        IList<Integer> integerList = new LinkedList<>();
+
+        integerList.put(2);
+        integerList.put(9);
+        integerList.put(7);
+
+        // Filtrerer ut alt som ikke er partall
+        integerList.filter(p -> p % 2 != 0);
+
+        // Sjekker at listen inneholder partallet 2, og ikke oddetallene 9 og 7.
+        assertTrue(integerList.contains(2) && !integerList.contains(9) && !integerList.contains(7));
 
     }
 
     @Test
-    void map() {
+    void filterStringsTest(){
+        // Filtrerer ut alle bokstaven P.
+        list.put("Per");
+        list.put("Pål");
+        list.put("Kari");
+
+        list.filter(p -> p.startsWith("P"));
+        // Sjekker at listen inneholder "Kari", og ikke "Per"
+        assertTrue(list.contains("Kari") && !list.contains("Per"));
+    }
+
+    /**
+     * Deloppgave 10.1
+     * Skriv tester for metoden map(Function<? super E, ? extends U>)
+     i ulike scenariorer. map tar en funksjon og returnerer en ny liste med nye elementer.
+     En funksjon tar et element fra domenet sitt og returnerer et nytt element som ikke
+     (nødvendigvis) er en del av domenet. Dette er grunnen til at vi ikke kan endre på
+     listen vi manipulerer, men må opprette en ny liste. Kommenter testene med hva du
+     tester fo
+     */
+
+
+    @Test
+    void mapToStrings() {
+        // Mapper fra Integer til String.
+
+        IList<Integer> integerIList = new LinkedList<>();
+        integerIList.put(5);
+        integerIList.put(3);
+        integerIList.put(4);
+        integerIList.put(6);
+
+        // Ny liste som mapper som Integer verdiene i integerList til string-verdier
+        IList<String> newList = integerIList.map(S -> Integer.toString(S));
+
+        // Sjekker at stringen "6" nå er først i listen.
+        assertEquals("6", newList.first());
     }
 
     @Test
-    void reduce() {
+    void mapToInteger(){
+        // Legger til et par string verdier inn i lsiten
+        list.put("1");
+        list.put("2");
+        list.put("3");
+
+        // Ny liste som parser elementene i list til Integer-verdier
+        IList<Integer> newList = list.map(Integer::parseInt);
+
+        // Sjekker at 3 nå er en integerverdi som ligger først i listen
+        assertEquals(Integer.valueOf(3), newList.first());
+    }
+
+    // Delooppgave 11.1
+
+    @Test
+    void reduceIntegerTest(){
+        // Tester for summen av tallene i listen
+        IList<Integer> integerIList = new LinkedList<>();
+        integerIList.put(5);
+        integerIList.put(10);
+
+        // Reduce slår her sammen tallene i listen, som skal gi verdien 15.
+        int result = integerIList.reduce(0, Integer::sum);
+        assertEquals(result, 5*3);
     }
 
     @Test
-    void size() {
+    void reduceStringsTest(){
+        // Tester sammenslåingen av strengene i listen.
+        list.put("A");
+        list.put("M");
+        list.put("I");
+
+        // Resultatet skal gi oss strengen "LIMA" om reduce fungerer som den skal.
+        String result = list.reduce("L", String::concat);
+        assertEquals(result, "LIMA");
+
     }
+
+    @Test
+    void reduceStringsTestTwo(){
+        list.put("O");
+        list.put("F");
+        list.put("N");
+        // Så å si lik testen over, men tester ved bruk av lambda.
+        String result = list.reduce("I", (F, S) -> F+S);
+        assertEquals(result, "INFO");
+
+    }
+
 
     @Test
     void clear() {
@@ -600,7 +740,7 @@ class ListTest {
         assertFalse(iterator.hasNext());
     }
 
-    
+
     @Test
     void iteratorHasNextOnOne() {
         // Sjekker at hasNext() returnerer true når det er ett element i listen
