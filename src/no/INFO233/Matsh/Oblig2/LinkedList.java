@@ -189,6 +189,7 @@ public class LinkedList<E> implements IList<E> {
         }
     }
 
+
     @Override
     public void prepend(IList<? extends E> list) {
         list = reverse(list);
@@ -216,26 +217,6 @@ public class LinkedList<E> implements IList<E> {
         }
         return result;
     }
-
-    /**
-     * public IList<E> concat(IList<? extends E>... lists){
-     * LinkedList<E> newList = new LinkedList<>();
-     * for (IList<? extends E> e : lists) {
-     * for(E elem : e){
-     * newList.add(elem);
-     * }
-     * }
-     * Iterator<E> itr = newList.iterator();
-     * <p>
-     * System.out.println(itr.hasNext());
-     * <p>
-     * while (itr.hasNext()) {
-     * System.out.println(itr.next().toString());
-     * }
-     * return newList;
-     * }
-     **/
-
 
     @Override
     public void sort(Comparator<? super E> c) {
@@ -324,7 +305,6 @@ public class LinkedList<E> implements IList<E> {
 
             @Override
             public boolean hasNext() {
-
                 return !isEmpty() && current != tailNode;
             }
 

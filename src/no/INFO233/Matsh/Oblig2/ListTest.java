@@ -30,7 +30,7 @@ class ListTest {
     @Test
     void oppg8_sortIntegers() {
         // Se oppgave 8
-        IList<Integer> list = new LinkedList<>(1);
+        IList<Integer> list = new LinkedList<>();
         List<Integer> values = Arrays.asList(3, 8, 4, 7, 10, 6,
                 1, 2, 9, 5);
         for (Integer value : values) {
@@ -128,10 +128,11 @@ class ListTest {
         assertEquals(result, "test");
     }
 
+    @Test
     void ex1_FastSort() {
         // Se ekstraoppgave 1
         Random r = new Random();
-        IList<Integer> list = new LinkedList<>(1);
+        IList<Integer> list = new LinkedList<>();
         for (int n = 0; n < 1000000; n++) {
             list.add(r.nextInt());
         }
@@ -439,6 +440,26 @@ class ListTest {
 
     }
 
+    @Test
+    void assertOnOne(){
+        // Lager to lister, en tom og en mer størrelse 1.
+        // Den tomme listen appender den andre. Sjekker at størrelsen øker, og at
+        // elementet fra den andre listen nå er det første og siste elementet i den første listen
+        // Legger til et ekstra element i den første listen
+        // Sjekker at 2 er det første elementet i den første listen, og at 1 er det siste.
+        IList<Integer> one = new LinkedList<>();
+        IList<Integer> appendTwo = new LinkedList<>(1);
+
+        one.append(appendTwo);
+        assertEquals(1, one.size());
+        assertTrue(one.first().equals(1) && one.last().equals(1));
+
+        one.put(2);
+
+        assertTrue(one.first().equals(2) && one.last().equals(1));
+
+    }
+
 
     @Test
     void prepend() {
@@ -459,6 +480,29 @@ class ListTest {
         assertEquals(4, list.size());
     }
 
+    @Test
+    void prependOnOne(){
+
+        // Legger til en tom liste, og en tom liste hvor man legger til ett element i front.
+        // Sjekker om den første og den siste er den samme
+        // Integerlist prepender den andre listen
+        // Sjekker at størrelsen har økt og at den første er lik den siste
+        //  Legger til slutt til et element på slutten av den første listen
+        // Sjekker at first() fortsatt er lik elementet fra listen som ble prependet, og at det siste
+        // er "2" fra integerList.
+        IList<Integer> IntegerList = new LinkedList<>();
+        IList<Integer> prependOne = new LinkedList<>();
+        prependOne.put(1);
+
+        IntegerList.prepend(prependOne);
+        assertEquals(1, IntegerList.size());
+        assertTrue(IntegerList.first().equals(1) && IntegerList.last().equals(1));
+
+        IntegerList.add(2);
+        assertTrue(IntegerList.first().equals(1) && IntegerList.last().equals(2));
+
+    }
+
     // Deloppgave 5.1
     @Test
     void concat() {
@@ -475,7 +519,23 @@ class ListTest {
         IList<String> concatinated = list.concat(list2, list3);
         assertEquals(6, concatinated.size());
         assertEquals("Item in list2-2", concatinated.first());
+        assertEquals("test3", concatinated.last());
     }
+
+    @Test
+    void concatOnEmtpy(){
+        // Ganske lik den over. Sjekker at det ikke skjer noe uventet om man legger til et element til i listen
+        // etter at man har kalt concat.
+        IList<Integer> list1 = new LinkedList<>();
+        IList<Integer> list2 = new LinkedList<>();
+        IList<Integer> list3 = new LinkedList<>();
+
+        IList<Integer> concatinated = list1.concat(list2, list3);
+
+        assertEquals(0, concatinated.size());
+        concatinated.put(2);
+        assertEquals(1, concatinated.size());
+     }
 
     // Deloppgave 8.1
     @Test
@@ -540,20 +600,15 @@ class ListTest {
         assertFalse(iterator.hasNext());
     }
 
-
-    @Test
-    void iteratorNextOnEmpty() {
-        // Sjekker at next() kaster NullPointerException når listen er tom.
-        assertThrows(NullPointerException.class, () -> {
-            iterator.next();
-        }, "Listen er tom");
-    }
-
+    
     @Test
     void iteratorHasNextOnOne() {
         // Sjekker at hasNext() returnerer true når det er ett element i listen
         list.add("test");
         assertTrue(iterator.hasNext());
+
+        iterator.next();
+        assertFalse(iterator.hasNext());
     }
 
     @Test
@@ -569,13 +624,14 @@ class ListTest {
         list.put("test4");
         assertTrue(iterator.hasNext());
         while (iterator.hasNext()) {
-            list.remove();
+            iterator.next();
         }
-        assertTrue(list.isEmpty());
-        assertThrows(NullPointerException.class, () -> {
+        assertThrows(NoSuchElementException.class, () -> {
             iterator.next();
         }, "listen er tom");
+        assertFalse(iterator.hasNext());
     }
+
 
 }
 
