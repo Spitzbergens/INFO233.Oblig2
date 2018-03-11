@@ -1,8 +1,6 @@
 package no.INFO233.Matsh.Oblig2;
 
 
-import com.beust.jcommander.internal.Lists;
-
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -33,7 +31,6 @@ public class LinkedList<E> implements IList<E> {
         numberOfEntries++;
     }
 
-    // Legger ved en tom konstruktør for tomme lister.
     public LinkedList() {
         headNode = null;
         tailNode = null;
@@ -49,13 +46,6 @@ public class LinkedList<E> implements IList<E> {
         }
         return reverse;
     }
-
-    private void swap(E a, E b) {
-        E temp = a;
-        a = b;
-        b = temp;
-    }
-
 
     private Node getReferenceTo(Object anEntry) {
         boolean found = false;
@@ -181,8 +171,7 @@ public class LinkedList<E> implements IList<E> {
         return numberOfEntries == 0;
     }
 
-    //  Legger til alle elementene i den angitte listen på
-    // slutten av listen.
+
     @Override
     public void append(IList<? extends E> list) {
         assert !list.isEmpty();
@@ -200,14 +189,6 @@ public class LinkedList<E> implements IList<E> {
         }
     }
 
-    /**
-     * ,* Slår sammen flere lister
-     * ,*
-     * ,* @param lists listene som skal slås sammen
-     * ,* @return Ny liste med alle elementene fra listene som
-     * ,* skal slås sammen.
-     * ,
-     */
 
     @Override
     @SuppressWarnings("unchecked")
@@ -283,21 +264,6 @@ public class LinkedList<E> implements IList<E> {
         numberOfEntries = 0;
     }
 
-    @Override
-    public E[] toArray() {
-        if (isEmpty()) {
-            return null;
-        }
-        @SuppressWarnings("unchecked")
-        E[] array = (E[]) new Object[size()];
-        int index = 0;
-        for (E value : this) {
-            array[index] = value;
-            index++;
-        }
-        return array;
-    }
-
 
     @Override
     public Iterator<E> iterator() {
@@ -326,9 +292,12 @@ public class LinkedList<E> implements IList<E> {
             @Override
             public void remove() {
 
-                    throw new UnsupportedOperationException("Ikke implementert");
+                throw new UnsupportedOperationException("Ikke implementert");
+                }
+                {
 
             }
+
 
 
         };
@@ -361,6 +330,31 @@ public class LinkedList<E> implements IList<E> {
             return data;
         }
 
+        private Node getNodeAt(int givenPosition) {
+            assert (headNode != null) && (1 <= givenPosition) && (givenPosition <= numberOfEntries);
+            Node currentNode = headNode;
+
+            for (int counter = 1; counter < givenPosition; counter++) {
+                currentNode = currentNode.getNext();
+            }
+            assert currentNode != null;
+            return currentNode;
+        }
+
+        private int getPosition(Object o) {
+            int position = 1;
+            boolean found = false;
+            Node currentNode = headNode;
+
+            while (!found && currentNode != null) {
+                if (currentNode.getData().equals(o)) {
+                    found = true;
+                } else {
+                    currentNode = currentNode.getNext();
+                    position ++;
+                }
+            } return position;
+        }
 
         public void setData(E data) {
             this.data = data;

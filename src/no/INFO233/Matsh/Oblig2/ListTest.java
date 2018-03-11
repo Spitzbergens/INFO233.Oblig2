@@ -1,18 +1,12 @@
 
 package no.INFO233.Matsh.Oblig2;
 
-import no.INFO233.Matsh.Oblig2.IList;
-import no.INFO233.Matsh.Oblig2.LinkedList;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.Null;
 
-
-import java.lang.reflect.Executable;
 import java.time.Duration;
 import java.util.*;
-import java.util.function.BooleanSupplier;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -133,6 +127,7 @@ class ListTest {
         assertEquals(result, "test");
     }
 
+    // Bubblesort er nok ikke effektiv nok til å bestå testen
     @Test
     void ex1_FastSort() {
         // Se ekstraoppgave 1
@@ -379,26 +374,7 @@ class ListTest {
         assertEquals(3, list.size());
 
     }
-    @Test
-    void first() {
-    }
 
-    @Test
-    void rest() {
-    }
-
-    @Test
-    void add() {
-    }
-
-    @Test
-    void put() {
-    }
-
-    @Test
-    void remove() {
-
-    }
 
     @Test
     void remove1() {
@@ -427,8 +403,6 @@ class ListTest {
     @Test
     void append() {
         // Testen sjekker om listen "list" inneholder elemtentet som var i listen som ble appendet.
-        // Sjekker deretter at "AppendedList"-elementet ikke er først i listen, men bakerst.
-        // Sjekker til slutt at størrelsen er lik antatt størrelse.
 
         IList<String> appendList = new LinkedList<>();
         // Legger til to elementer i listen fra setUp() metoden.
@@ -440,9 +414,11 @@ class ListTest {
 
         list.append(appendList);
 
+        // Sjekker  at "AppendedList"-elementet eksisterer i listen, og ikke er først i listen, men bakerst.
         assertTrue(list.contains("AppendedList"));
         assertFalse(list.first().equals("AppendedList"));
         assertTrue(list.last().equals("AppendedList"));
+        // Sjekker til slutt at størrelsen er lik antatt størrelse.
         assertEquals(4, list.size());
 
     }
@@ -450,19 +426,18 @@ class ListTest {
     @Test
     void assertOnOne(){
         // Lager to lister, en tom og en mer størrelse 1.
-        // Den tomme listen appender den andre. Sjekker at størrelsen øker, og at
-        // elementet fra den andre listen nå er det første og siste elementet i den første listen
-        // Legger til et ekstra element i den første listen
-        // Sjekker at 2 er det første elementet i den første listen, og at 1 er det siste.
+
         IList<Integer> one = new LinkedList<>();
         IList<Integer> appendTwo = new LinkedList<>(1);
 
         one.append(appendTwo);
+        // Den tomme listen appender den andre. Sjekker at størrelsen øker, og at
+        // elementet fra den andre listen nå er det første og siste elementet i den første listen
         assertEquals(1, one.size());
         assertTrue(one.first().equals(1) && one.last().equals(1));
-
+        // Legger til et ekstra element i den første listen
         one.put(2);
-
+        // Sjekker at 2 er det første elementet i den første listen, og at 1 er det siste.
         assertTrue(one.first().equals(2) && one.last().equals(1));
 
     }
@@ -471,9 +446,7 @@ class ListTest {
     @Test
     void prepend() {
 
-        // Sjekker at listen som blir prepended av list inneholder elemtene fra listen "prepend", og at det
-        // første elementet er "prependItem2", slik det skal være.
-        // Sjekker til slutt at størrelsen er så stor som man antar.
+
         list.put("test");
         list.put("test2");
         IList<String> prependList = new LinkedList<>();
@@ -481,9 +454,12 @@ class ListTest {
         prependList.put("prependItem2");
 
         list.prepend(prependList);
+        // Sjekker at listen som blir prepended av list inneholder elemtene fra listen "prepend", og at det
+        // første elementet er "prependItem2", slik det skal være.
 
         assertTrue(list.contains("prependItem") && list.contains("prependItem2"));
         assertTrue(list.first().equals("prependItem2"));
+        // Sjekker til slutt at størrelsen er så stor som man antar.
         assertEquals(4, list.size());
     }
 
@@ -492,20 +468,18 @@ class ListTest {
 
         // Legger til en tom liste, og en tom liste hvor man legger til ett element i front.
         // Sjekker om den første og den siste er den samme
-        // Integerlist prepender den andre listen
-        // Sjekker at størrelsen har økt og at den første er lik den siste
-        //  Legger til slutt til et element på slutten av den første listen
-        // Sjekker at first() fortsatt er lik elementet fra listen som ble prependet, og at det siste
-        // er "2" fra integerList.
         IList<Integer> IntegerList = new LinkedList<>();
         IList<Integer> prependOne = new LinkedList<>();
         prependOne.put(1);
-
+        // Integerlist prepender den andre listen
         IntegerList.prepend(prependOne);
+        // Sjekker at størrelsen har økt og at den første er lik den siste
         assertEquals(1, IntegerList.size());
         assertTrue(IntegerList.first().equals(1) && IntegerList.last().equals(1));
-
+        //  Legger til slutt til et element på slutten av den første listen
         IntegerList.add(2);
+        // Sjekker at first() fortsatt er lik elementet fra listen som ble prependet, og at det siste
+        // er "2" fra integerList.
         assertTrue(IntegerList.first().equals(1) && IntegerList.last().equals(2));
 
     }
@@ -514,9 +488,6 @@ class ListTest {
     @Test
     void concat() {
         // Oppretter to lister, som blir sveiset sammen av list som en ny liste.
-        // Sjekker deretter at størrelsen er det man antar at den skal være
-        // Sjekker også at det første elementet er "Item in list2-2", siden dette er første element i list-2,
-        // og på venstre del av parameteret.
         IList<String> list2 = new LinkedList<>("test2");
         IList<String> list3 = new LinkedList<>("test3");
         list2.put("Item in list2");
@@ -524,7 +495,10 @@ class ListTest {
         list3.put("Item in list3");
         list3.put("Item in list3-2");
         IList<String> concatinated = list.concat(list2, list3);
+        // Sjekker deretter at størrelsen er det man antar at den skal være
         assertEquals(6, concatinated.size());
+        // Sjekker også at det første elementet er "Item in list2-2", siden dette er første element i list-2,
+        // og på venstre del av parameteret.
         assertEquals("Item in list2-2", concatinated.first());
         assertEquals("test3", concatinated.last());
     }
@@ -547,14 +521,11 @@ class ListTest {
     // Deloppgave 8.1
     @Test
     void sortIntegers() {
-        // Oppretter en ny liste av typen Integer. Lager deretter et array med
-        // den forventete sorterte listen.
-        // Legger til en rekke usorterte tall.
-        // Kaller sort metoden på listen, hvor man bruker en sammenligningsfunksjon
-        // Bruker assertArrayEquals for å sammenligne "expected"-arrayet mot Integerlist,
-        // som kaller en toArray-metode.
+        // Oppretter en ny liste av typen Integer.
         IList<Integer> integerList = new LinkedList<>();
-        Integer[] expected = {76, 56, 54, 43, 23};
+        // Iterator for å gå gjennom listen
+        Iterator iterator = integerList.iterator();
+        // Legger til en rekke usorterte tall.
         integerList.add(54);
         integerList.add(43);
         integerList.add(56);
@@ -562,47 +533,43 @@ class ListTest {
         integerList.add(76);
 
         integerList.sort(Comparator.comparingInt(x -> x));
-        assertArrayEquals(expected, integerList.toArray());
+            // Iteratoren går gjennom å sammenligner med forventet sortert liste
+            assertEquals(23, iterator.next());
+            assertEquals(43, iterator.next());
+            assertEquals(54, iterator.next());
+            assertEquals(56, iterator.next());
+            assertEquals(76, iterator.next());
+
+        assertEquals(Integer.valueOf(23), integerList.first());
+        assertEquals(Integer.valueOf(76), integerList.last());
+
+
     }
 
-    @Test
-    void sortStrings() {
-
-        list.add("test");
-        list.add("h");
-        list.add("d");
-        list.add("s");
-        list.add("j");
-        list.add("c");
-        list.add("b");
-
-        list.sort(Comparator.naturalOrder());
-
-        String n = list.remove();
-        while (list.size() > 0) {
-            String m = list.remove();
-            if (n.compareTo(m) > 0) {
-                fail("String list is not sorted.");
-            }
-            n = m;
-        }
-    }
 
     @Test
-    void sortTestIterator(){
+    void sortTestStrings(){
+        // Legger til en del strenger som skal sorteres.
         list.add("Fredrik");
         list.add("Øyvind");
         list.add("Aslak");
         list.add("Børre");
         list.add("Carl");
 
+        // Sorterer
         list.sort(Comparator.naturalOrder());
 
+        // Iteratorsjekekr at neste element er lik den strukturen man forventer
+        // at den strukturerte listen skal være
             assertEquals("Aslak", iterator.next());
             assertEquals("Børre", iterator.next());
             assertEquals("Carl", iterator.next());
             assertEquals("Fredrik", iterator.next());
             assertEquals("Øyvind", iterator.next());
+
+            // Dobbelsjekker at den første er lik "Aslak" og den siste lik "Øyvind"
+         assertEquals("Aslak", list.first());
+         assertEquals("Øyvind", list.last());
 
 
     }
@@ -730,6 +697,7 @@ class ListTest {
         list.put("test2");
         list.clear();
         assertTrue(list.isEmpty());
+        assertTrue(list.size() == 0);
     }
 
 
